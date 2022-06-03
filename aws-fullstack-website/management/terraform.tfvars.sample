@@ -1,0 +1,13 @@
+app_name = "hello_world"
+aws_access_key = ""
+aws_secret_key = ""
+region = "ap-southeast-1"
+default_tags = {
+    Project     = "Hello World"
+    Environment = "Staging" # Production | Staging
+}
+vpc_cidr = "172.16.0.0/16"
+availability_zones = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+allowed_admin_ip_addresses = ["123.123.123.123/32", "123.123.123.124/32"]
+bastion_port = "22"
+ec2_keypair_pub = ""
