@@ -1,0 +1,41 @@
+name: Pull Request
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check_template:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    strategy:
+      matrix:
+        template: [aws-fullstack-website, aws-s3-nginx-redirection]
+
+    steps:
+      - name: Checkout
+        use: actions/checkout@v3
+        
+      - name: Install Terraform
+        run: |
+          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install terraform
+
+      - name: ⛵ Initialize Terraform Template
+        working-directory: ${{ matrix.template }}
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ secrets.TERRAFORM_APP_STATE_BUCKET }}" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -backend-config="key=terraform.tfstate"
+          terraform workspace select staging
+
+      - name: 💉 Validate template
+        working-directory: terraform/application
+        run: terraform validate
