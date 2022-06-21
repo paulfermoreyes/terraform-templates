@@ -28,8 +28,9 @@ resource "aws_instance" "server" {
 #!/bin/bash
 
 echo "Installing Chef Workstation"
-wget https://packages.chef.io/files/stable/chef-workstation/21.10.640/ubuntu/20.04/chef-workstation_21.10.640-1_amd64.deb
-sudo dpkg -i chef-workstation_21.10.640-1_amd64.deb
+# Reference: https://www.chef.io/downloads/tools/workstation?os=ubuntu
+wget https://packages.chef.io/files/stable/chef-workstation/22.6.973/ubuntu/20.04/chef-workstation_22.6.973-1_amd64.deb
+sudo dpkg -i chef-workstation_22.6.973-1_amd64.deb
 
 echo "Creating Swap File"
 sudo dd if=/dev/zero of=/swapfile bs=128M count=32
