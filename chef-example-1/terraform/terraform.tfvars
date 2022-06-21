@@ -1,9 +1,9 @@
-APP_NAME = "bb"
+APP_NAME = "chef-example"
 ADMIN_IP_ADDRESSES = [
   "152.32.100.84/32"
 ]
 
-SSH_PUBLIC_KEY_PATH = "/Users/paulfermoreyes/.ssh/bb_aws.pub"
+SSH_PUBLIC_KEY_PATH = ""
 
 VPC = {
   ADMIN_IP_RANGES = "152.32.100.84/32"
